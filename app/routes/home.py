@@ -1,5 +1,7 @@
 # import Blueprint to let us consolidate routes onto a single bp
 from flask import Blueprint, render_template
+from app.models import Post
+from app.db import get_db
 
 # bp object that the parent app can register later - corresponds to using Router middleware of Express
 bp = Blueprint('home', __name__, url_prefix='/')
@@ -8,7 +10,19 @@ bp = Blueprint('home', __name__, url_prefix='/')
 # homepage route
 @bp.route('/')
 def index():
-    return render_template('homepage.html')
+    # get all posts
+    db = get_db()
+    posts = (
+        db
+        .query(Post)
+        .order_by(Post.created_at.desc())
+        .all()
+    )
+
+    return render_template(
+        'homepage.html',
+        posts=posts
+        )
 
 # login route
 @bp.route('/login')
@@ -18,7 +32,15 @@ def logoin():
 # single-post route - <id> represents a parameter
 @bp.route('/post/<id>')
 def single(id):
-    return render_template('single-post.html')
+    # get single post by id
+    db = get_db()
+    post = db.query(Post).filter(Post.id == id).one()
+
+    # render single post template
+    return render_template(
+        'single-post.html',
+        post=post
+        )
 
 
 
