@@ -27,7 +27,7 @@ def index():
 # login route
 @bp.route('/login')
 def logoin():
-    return render_template('lgoin.html')
+    return render_template('login.html')
 
 # single-post route - <id> represents a parameter
 @bp.route('/post/<id>')
