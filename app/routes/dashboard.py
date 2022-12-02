@@ -1,12 +1,14 @@
 from flask import Blueprint, render_template, session
 from app.models import Post
 from app.db import get_db
+from app.utils.auth import login_required
 
 # url_prefix='/dashboard' - prefix every route in the blueprint with /dashboard
 bp = Blueprint('dashboard', __name__, url_prefix='/dashboard')
 
 # dashboard route
 @bp.route('/')
+@login_required
 def dash():
     db = get_db()
     posts = (
@@ -24,6 +26,19 @@ def dash():
 
 # edit-post route
 @bp.route('/edit/<id>')
+@login_required
 def edit(id):
-    return render_template('edit-post.html')
+    # get single post by id
+    db = get_db()
+    post = db.query(Post).filter(Post.id == id).one()
+
+    # render edit page
+    return render_template(
+        'edit-post.html',
+        post=post,
+        loggedIn=session.get('loggedIn')
+    )
+
+
+
 
