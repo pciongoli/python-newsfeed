@@ -1,6 +1,6 @@
 # python-newsfeed
 
-### Deployed Link: #### https://git.heroku.com/pc-python-newsfeed.git
+### Deployed Link: https://git.heroku.com/pc-python-newsfeed.git
 
 ### Objective:
 #### To take an existing Node.js project and rebuild the server-side logic using Python. This project is made to serve as a tech newsfeed in which users can signup/login and submit posts for other users to see, comment on and upvote on.
